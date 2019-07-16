@@ -11,7 +11,7 @@
     <meta name="keywords" content="自然语言处理 深度学习">
 
 
-<title>Hello World | AustinWang&#39;s Blog</title>
+<title>Scrapy环境安装介绍与快速入门案例 | AustinWang&#39;s Blog</title>
 
 
 
@@ -172,7 +172,7 @@
     
     <article class="post-wrap">
         <header class="post-header">
-            <h1 class="post-title">Hello World</h1>
+            <h1 class="post-title">Scrapy环境安装介绍与快速入门案例</h1>
             
                 <div class="post-meta">
                     
@@ -181,7 +181,7 @@
 
                     
                         <span class="post-time">
-                        Date: <a href="#">July 14, 2019&nbsp;&nbsp;21:15:30</a>
+                        Date: <a href="#">July 16, 2019&nbsp;&nbsp;10:54:37</a>
                         </span>
                     
                     
@@ -189,7 +189,7 @@
                         <span class="post-category">
                     Category:
                             
-                                <a href="/categories/测试分类/">测试分类</a>
+                                <a href="/categories/爬虫——Scrapy框架/">爬虫——Scrapy框架</a>
                             
                         </span>
                     
@@ -198,19 +198,39 @@
         </header>
 
         <div class="post-content">
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+            <p>Scrapy是一款非常出色的且开源的爬虫框架。详细开发文档可点击：<a href="https://docs.scrapy.org/en/latest/" target="_blank" rel="noopener">Scrapy文档</a>。实验室团队在收集相关语料时，我经常会使用它来提高收集效率。这一篇blog，主要用于记录Scrapy环境的配置和快速入门的案例，以便查询使用。</p>
+<h2 id="环境安装（方法一）"><a href="#环境安装（方法一）" class="headerlink" title="环境安装（方法一）"></a>环境安装（方法一）</h2><p>由于我实验室的工作站是使用的Windows操作系统，我这里就以它为例安装Scrapy。另外，开发文档中也有Mac和Ubuntu的简要安装信息，不过个人安装时会有很多坑。</p>
+<h3 id="前期的配置准备"><a href="#前期的配置准备" class="headerlink" title="前期的配置准备"></a>前期的配置准备</h3><p>我们需要提前安装一些配置，否则直接按照官网去安装通常会报错。下列的几个配置，前几个基本上都有pip的安装方式，不过我这种方式比较稳定。</p>
+<ol>
+<li><p>安装pip的wheel</p>
+<blockquote><p>Wheels are the new standard of Python distribution and are intended to replace eggs.Wheels will make things simpler.</p>
+<footer><strong>Austin.Wang</strong><cite><a href="https://pythonwheels.com/" target="_blank" rel="noopener">——来自Python Wheels官网改编</a></cite></footer></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install wheel</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装lxml<br>打开lxml的wheel仓库，<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml" target="_blank" rel="noopener">下载地址</a><br>下载python版本对应的lxml，我的python是64位3.5版本，则需要安装<em>lxml‑4.3.4‑cp35‑cp35m‑win_amd64.whl</em><br>下载后直接使用pip安装轮子，会报一个successful信息。</p>
+<blockquote><p>lxml是Python语言里和XML以及HTML工作的功能最丰富和最容易使用的库。本质上就是对树形结构的数据进行操作的一个库。</p>
+<footer><strong>Austin.Wang</strong></footer></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install .\lxml-4.3.4-cp35-cp35m-win_amd64.whl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装pyOpenSSL<br>去pyOpenSSL的官网，<a href="https://pypi.org/project/pyOpenSSL/#files" target="_blank" rel="noopener">下载地址</a><br>选择<em>pyOpenSSL-19.0.0-py2.py3-none-any.whl</em> 版本下载即可。<br>下载后直接使用pip安装轮子，报一个successful信息表示成功。</p>
+<blockquote><p>pyopenssl是一个封装了openssl的python模块。<br>使用它可以方便地进行一些加解密操作。</p>
+<footer><strong>Austin.Wang</strong></footer></blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install .\pyOpenSSL-19.0.0-py2.py3-none-any.whl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Twisted<br>Twisted是一个异步的框架，Scrapy的核心框架就是基于它来改造的。<a href="https://www.lfd.uci.edu/~gohlke/pythonlibs/#twisted" target="_blank" rel="noopener">下载地址</a><br>选择对应python3.5版本的<em>Twisted‑19.2.1‑cp35‑cp35m‑win_amd64.whl</em> 版本下载。<br>下载后直接使用pip安装轮子，报一个successful信息表示成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install .\Twisted-19.2.1-cp35-cp35m-win_amd64.whl</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Pywin32<br>Pywin32是一个跨平台的COM的python库。<a href="https://sourceforge.net/projects/pywin32/files/pywin32/Build%20220/" target="_blank" rel="noopener">下载地址</a><br>点开对应的版本，等五秒即可下载。<br>下载出来的是一个exe可执行文件，直接运行。</p>
+</li>
+</ol>
+<h3 id="安装Scrapy"><a href="#安装Scrapy" class="headerlink" title="安装Scrapy"></a>安装Scrapy</h3><p>这时候就体现出pip的优势了，直接使用pip包的指令，即可安装。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install scrapy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>直接输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<p>报出来指令信息即安装成功。</p>
+<h2 id="环境安装（方法二）"><a href="#环境安装（方法二）" class="headerlink" title="环境安装（方法二）"></a>环境安装（方法二）</h2><p>这种方式非常的简单，但是依然建议浏览上述的方法，因为他们非常清晰的展示了Scrapy的依赖和基本思想。</p>
 
         </div>
 
@@ -225,7 +245,7 @@
                 
                     <p class="copyright-item">
                         <span>Permalink:</span>
-                        <span><a href="https://printlnmylove.github.io/2019/07/14/hello-world/">https://printlnmylove.github.io/2019/07/14/hello-world/</a></span>
+                        <span><a href="https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/">https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/</a></span>
                     </p>
                 
                 
@@ -249,9 +269,11 @@
                 <span class="tag">
                     
                     
-                        <a href="/tags/测试/"># 测试</a>
+                        <a href="/tags/爬虫/"># 爬虫</a>
                     
-                        <a href="/tags/hello/"># hello</a>
+                        <a href="/tags/Scrapy框架/"># Scrapy框架</a>
+                    
+                        <a href="/tags/环境安装/"># 环境安装</a>
                     
                         
                 </span>
@@ -264,8 +286,8 @@
         </section>
         <section class="post-nav">
             
-                <a class="prev" rel="prev" href="/2019/07/16/Scrapy环境安装与快速入门案例/">Scrapy环境安装介绍与快速入门案例</a>
             
+            <a class="next" rel="next" href="/2019/07/14/hello-world/">Hello World</a>
             
         </section>
 
