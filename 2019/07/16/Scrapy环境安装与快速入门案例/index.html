@@ -199,8 +199,8 @@
 
         <div class="post-content">
             <p>Scrapy是一款非常出色的且开源的爬虫框架。详细开发文档可点击：<a href="https://docs.scrapy.org/en/latest/" target="_blank" rel="noopener">Scrapy文档</a>。实验室团队在收集相关语料时，我经常会使用它来提高收集效率。这一篇blog，主要用于记录Scrapy环境的配置和快速入门的案例，以便查询使用。</p>
-<h2 id="环境安装（方法一）"><a href="#环境安装（方法一）" class="headerlink" title="环境安装（方法一）"></a>环境安装（方法一）</h2><p>由于我实验室的工作站是使用的Windows操作系统，我这里就以它为例安装Scrapy。另外，开发文档中也有Mac和Ubuntu的简要安装信息，不过个人安装时会有很多坑。</p>
-<h3 id="前期的配置准备"><a href="#前期的配置准备" class="headerlink" title="前期的配置准备"></a>前期的配置准备</h3><p>我们需要提前安装一些配置，否则直接按照官网去安装通常会报错。下列的几个配置，前几个基本上都有pip的安装方式，不过我这种方式比较稳定。</p>
+<p>由于我实验室的工作站是使用的Windows操作系统和linux操作系统，所以我先用这两个环境安装了Scrapy。另外，我也提供了Mac的安装教程，亲身实践，并验证有效。</p>
+<h2 id="Windows环境的安装（方法一）"><a href="#Windows环境的安装（方法一）" class="headerlink" title="Windows环境的安装（方法一）"></a>Windows环境的安装（方法一）</h2><h3 id="前期的配置准备"><a href="#前期的配置准备" class="headerlink" title="前期的配置准备"></a>前期的配置准备</h3><p>我们需要提前安装一些配置，否则直接按照官网去安装通常会报错。下列的几个配置，前几个基本上都有pip的安装方式，不过我这种方式比较稳定。</p>
 <ol>
 <li><p>安装pip的wheel</p>
 <blockquote><p>Wheels are the new standard of Python distribution and are intended to replace eggs.Wheels will make things simpler.</p>
@@ -230,12 +230,112 @@
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy</span><br></pre></td></tr></table></figure>
 
 <p>报出来指令信息即安装成功。</p>
-<h2 id="环境安装（方法二）"><a href="#环境安装（方法二）" class="headerlink" title="环境安装（方法二）"></a>环境安装（方法二）</h2><p>这种方式非常的简单，但是依然建议浏览上述的方法，因为他们非常清晰的展示了Scrapy的依赖和基本思想。</p>
+<h2 id="Windows环境的安装（方法二）"><a href="#Windows环境的安装（方法二）" class="headerlink" title="Windows环境的安装（方法二）"></a>Windows环境的安装（方法二）</h2><p>使用Anaconda安装。这种方式非常的简单，但是依然建议浏览上述的方法，因为他们非常清晰的展示了Scrapy的依赖和基本思想。前提就是需要提前安装好Anaconda。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ conda install scrapy</span><br></pre></td></tr></table></figure>
+
+<h2 id="Linux环境的安装"><a href="#Linux环境的安装" class="headerlink" title="Linux环境的安装"></a>Linux环境的安装</h2><h3 id="配置准备"><a href="#配置准备" class="headerlink" title="配置准备"></a>配置准备</h3><p>linux的环境配置也较为简单，linux倘若安装了python3，直接运行下面指令即可安装相关配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install build-essential python3-dev libssl-dev libffi-dev libxml2 libxml2-dev libxslt1-dev zlib1g-dev</span><br></pre></td></tr></table></figure>
+
+<p>简单来说，这个就是将上述环境配置集成到了一个指令中来。</p>
+<h3 id="安装Scrapy-1"><a href="#安装Scrapy-1" class="headerlink" title="安装Scrapy"></a>安装Scrapy</h3><p>相关环境配置配好以后，采用pip的方式安装Scrapy。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install scrapy</span><br></pre></td></tr></table></figure>
+
+<p>直接输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy</span><br></pre></td></tr></table></figure>
+
+<p>报出来相关指令信息即安装成功。</p>
+<h2 id="Mac环境的安装"><a href="#Mac环境的安装" class="headerlink" title="Mac环境的安装"></a>Mac环境的安装</h2><h3 id="配置准备-1"><a href="#配置准备-1" class="headerlink" title="配置准备"></a>配置准备</h3><p>Mac的环境配置也是基于指令的，不过这个指令有些特殊，对应的是一个软件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ xcode-select --install</span><br></pre></td></tr></table></figure>
+
+<p>这个软件配置里包含了我们Scrapy所需要的相关配置。</p>
+<h3 id="安装Scrapy-2"><a href="#安装Scrapy-2" class="headerlink" title="安装Scrapy"></a>安装Scrapy</h3><p>相关环境配置配好以后，依然采用pip的方式安装Scrapy。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install scrapy</span><br></pre></td></tr></table></figure>
+
+<p>直接输入</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy</span><br></pre></td></tr></table></figure>
+
+<h2 id="环境安装的心得"><a href="#环境安装的心得" class="headerlink" title="环境安装的心得"></a>环境安装的心得</h2><p>我们在上述的安装过程中，可以明显的感觉到我们对pip包管理工具的依赖。而安装的重难点就在于Scrapy所需环境的配置，根据我们所安装的配置，可以体会到Scrapy的最大特点：请求是异步调度和处理的（基于Twisted）。当然，使用lxml也体现了其对结构性数据处理的强大。</p>
+<h2 id="Scrapy快速入门案例分析"><a href="#Scrapy快速入门案例分析" class="headerlink" title="Scrapy快速入门案例分析"></a>Scrapy快速入门案例分析</h2><p>我将以实际爬取的小demo作为快速入门的案例。这样也将以最快的速度找到使用的感觉。</p>
+<h3 id="爬取的对象"><a href="#爬取的对象" class="headerlink" title="爬取的对象"></a>爬取的对象</h3><p>在这里我提供的是Scrapy官方给的一个示例网站，可供使用者爬取练习，里面有作者、标签等，还有翻页的功能。Quotes to Scrape <a href="http://quotes.toscrape.com/" target="_blank" rel="noopener">http://quotes.toscrape.com/</a></p>
+<h3 id="爬取分析"><a href="#爬取分析" class="headerlink" title="爬取分析"></a>爬取分析</h3><p>示例网站里面都是一些非常简单的文本还有标签，并且翻页仅仅需要url的改变就可实现，并没有任何的反爬虫措施。但我们的重点在于掌握使用方法，新手友好且示例元素足够。</p>
+<p>下面我列出其具体的实现步骤及策略：</p>
+<table>
+<thead>
+<tr>
+<th align="center">顺序</th>
+<th align="center">目标</th>
+<th align="center">具体策略</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">第一步</td>
+<td align="center">抓取第一页</td>
+<td align="center">请求第一页的URL并得到源代码，进行下一步分析</td>
+</tr>
+<tr>
+<td align="center">第二步</td>
+<td align="center">获取内容和下一页链接</td>
+<td align="center">分析源代码，提取首页内容，获取下一页链接等待进一步爬取</td>
+</tr>
+<tr>
+<td align="center">第三步</td>
+<td align="center">翻页爬取</td>
+<td align="center">请求下一页信息，分析内容并请求下一页的链接</td>
+</tr>
+<tr>
+<td align="center">第四步</td>
+<td align="center">保存爬取结果</td>
+<td align="center">将爬取结果保存为特点格式如文本、数据库</td>
+</tr>
+</tbody></table>
+<h3 id="构建爬虫"><a href="#构建爬虫" class="headerlink" title="构建爬虫"></a>构建爬虫</h3><ol>
+<li><p>新建一个Scrapy项目<br>在所需要建立的位置打开命令行工具，直接输入下列指令即可新建一个名为tutorial的项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy startproject tutorial</span><br></pre></td></tr></table></figure>
+
+<p> 创建后可以简单看一下项目结构。<br><img src="scrapy%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84.jpg" alt="scrapy目录结构.jpg"></p>
+</li>
+</ol>
+<ol start="2">
+<li><p>编写一个spider来抓取网站并提取数据<br>命令行输入，会在目录的spiders生成一个名为quotes的spider，即我们需要的一个小爬虫：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy genspider quotes quotes.toscrape.com</span><br></pre></td></tr></table></figure>
+
+<p> 使用PyCharm打开项目，找到生成的quotes.py文件，新生成的文件内容一目了然。</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuotesSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'quotes'</span></span><br><span class="line">    allowed_domains = [<span class="string">'quotes.toscrape.com'</span>]</span><br><span class="line">    start_urls = [<span class="string">'http://quotes.toscrape.com/'</span>]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p> 我们现在根据之前的爬取对象的网页结构，开始改造一下这个爬虫模板，以便抓取到我们想要的信息。<br> 首先，选择items.py文件，修改为以下内容：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuoteItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    <span class="comment"># name = scrapy.Field()</span></span><br><span class="line">    text = scrapy.Field()</span><br><span class="line">    author = scrapy.Field()</span><br><span class="line">    tags = scrapy.Field()</span><br></pre></td></tr></table></figure>
+
+<p> 之后回到爬虫quotes.py文件里，修改为：</p>
+ <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> tutorial.items <span class="keyword">import</span> QuoteItem</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QuotesSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">'quotes'</span></span><br><span class="line">    allowed_domains = [<span class="string">'quotes.toscrape.com'</span>]</span><br><span class="line">    start_urls = [<span class="string">'http://quotes.toscrape.com/'</span>]</span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        quotes = response.css(<span class="string">'.quote'</span>)     <span class="comment"># 类选择器</span></span><br><span class="line">        <span class="keyword">for</span> quote <span class="keyword">in</span> quotes:</span><br><span class="line">            item = QuoteItem()</span><br><span class="line">            <span class="comment"># 这里得到的是一个个div模块</span></span><br><span class="line">            <span class="comment"># 类选择器，并且抓取第一个符合标签内的文本内容</span></span><br><span class="line">            text = quote.css(<span class="string">'.text::text'</span>).extract_first()</span><br><span class="line">            author = quote.css(<span class="string">'.author::text'</span>).extract_first()</span><br><span class="line">            <span class="comment"># 类选择器下的子选择器，抓取全部符合的标签的文本内容（返回列表）</span></span><br><span class="line">            tags = quote.css(<span class="string">'.tags .tag::text'</span>).extract()</span><br><span class="line">            item[<span class="string">'text'</span>] = text</span><br><span class="line">            item[<span class="string">'author'</span>] = author</span><br><span class="line">            item[<span class="string">'tags'</span>] = tags</span><br><span class="line">            <span class="keyword">yield</span> item</span><br><span class="line">        <span class="comment"># 选取类选择器下的子标签,并且抓取标签的属性</span></span><br><span class="line">        next = response.css(<span class="string">'.pager .next a::attr(href)'</span>).extract_first()</span><br><span class="line">        <span class="comment"># next是局部url,使用join方法获取url完整路径</span></span><br><span class="line">        url = response.urljoin(next)</span><br><span class="line">        <span class="comment"># 重新发起请求，采用递归的方式, callback回调函数;实现翻页的循环</span></span><br><span class="line">        <span class="keyword">yield</span> scrapy.Request(url=url, callback=self.parse)</span><br></pre></td></tr></table></figure>
+
+<p> 这里不得不提Scrapy给我们提供的一个shell调试功能,它是一个非常强大的工具。指令后面是一个网址。<br> 具体结果这里不表，给出我调试的一些步骤来：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">打开shell交互界面</span><br><span class="line">$ scrapy shell quotes.toscrape.com</span><br><span class="line">实现交互功能</span><br><span class="line">$ quotes = response.css(<span class="string">'.quote'</span>)</span><br><span class="line">可继续对其进行操作</span><br><span class="line">$ quotes[0]</span><br><span class="line">调用一些常用指令</span><br><span class="line">$ quotes[0].css(<span class="string">'.text::text'</span>)</span><br><span class="line">$ quotes[0].css(<span class="string">'.text::text'</span>).extract_first()</span><br><span class="line">$ quotes[0].css(<span class="string">'.tags .tag::text'</span>).extract()</span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="启动爬虫抓取数据"><a href="#启动爬虫抓取数据" class="headerlink" title="启动爬虫抓取数据"></a>启动爬虫抓取数据</h3><p>在命令行直接启动即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy crawl quotes</span><br></pre></td></tr></table></figure>
+
+<p>抓取后的数据如何进行保存呢？可以使用-o指令来指定保存文件类型，Scrapy会替我们生成一个对应文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy crawl quotes -o quotes.json</span><br><span class="line">$ scrapy crawl quotes -o quotes.jl	按行来保存</span><br><span class="line">$ scrapy crawl quotes -o quotes.csv 	可以生成csv文件</span><br><span class="line">$ scrapy crawl quotes -o quotes.xml 	生成xml文件</span><br></pre></td></tr></table></figure>
+
+<p>scrapy也可以使用远程ftp的保存方法，详情可见开发文档：<a href="https://docs.scrapy.org/en/latest/" target="_blank" rel="noopener">Scrapy文档</a>。</p>
+<h3 id="将爬取数据保存到数据库中"><a href="#将爬取数据保存到数据库中" class="headerlink" title="将爬取数据保存到数据库中"></a>将爬取数据保存到数据库中</h3><p>注：需提前在数据库中建test/scrapy表<br>关于数据保存到数据库，需要我们进行按需编写。打开pipelines.py文件，修改为以下内容：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pymysql</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TutorialPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="comment"># 连接数据库</span></span><br><span class="line">        self.connect = pymysql.connect(</span><br><span class="line">            host=<span class="string">'localhost'</span>,  <span class="comment"># 数据库地址</span></span><br><span class="line">            port=<span class="number">3306</span>,  <span class="comment"># 数据库端口</span></span><br><span class="line">            db=<span class="string">'test'</span>,  <span class="comment"># 数据库名</span></span><br><span class="line">            user=<span class="string">'root'</span>,  <span class="comment"># 数据库用户名</span></span><br><span class="line">            passwd=<span class="string">'123'</span>,  <span class="comment"># 数据库密码</span></span><br><span class="line">            charset=<span class="string">'utf8'</span>,  <span class="comment"># 编码方式</span></span><br><span class="line">            use_unicode=<span class="literal">True</span>)</span><br><span class="line">        <span class="comment"># 通过cursor执行增删查改</span></span><br><span class="line">        self.cursor = self.connect.cursor();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="comment"># 防sql注入</span></span><br><span class="line">        quotesInsert = <span class="string">'''insert into scrapy(id, text, author, tags) value (null ,'&#123;text&#125;','&#123;author&#125;','&#123;tags&#125;')'''</span></span><br><span class="line">        sqltext = quotesInsert.format(</span><br><span class="line">            text=pymysql.escape_string(item[<span class="string">'text'</span>]),</span><br><span class="line">            author=pymysql.escape_string(item[<span class="string">'author'</span>]),</span><br><span class="line">            tags=pymysql.escape_string(<span class="string">" "</span>.join(item[<span class="string">'tags'</span>])))</span><br><span class="line">        <span class="comment"># spider.log(sqltext)</span></span><br><span class="line">        self.cursor.execute(sqltext)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 提交sql语句</span></span><br><span class="line">        self.connect.commit()</span><br><span class="line">        <span class="keyword">return</span> item  <span class="comment"># 必须实现返回</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.cursor.close()</span><br><span class="line">        self.connect.close()</span><br></pre></td></tr></table></figure>
+
+<p>另外非常重要的是，需要修改settings.py来激活Scrapy向数据库存储数据的功能。添加下面这句即可：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">'tutorial.pipelines.TutorialPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>设置完毕后，重新运行爬虫。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ scrapy crawl quotes</span><br></pre></td></tr></table></figure>
+
+<p>可以观察到数据已经保存在数据库中。</p>
+<h2 id="案例总结"><a href="#案例总结" class="headerlink" title="案例总结"></a>案例总结</h2><p>经过入门的案例，我们已经清晰的感受到Scrapy的强大，不过这一次还没有真正用到Scrapy的一大特点：异步处理。之后我会根据NLP项目的语料收集，更细致的探索Scrapy的功能与使用技巧。</p>
 
         </div>
 
         
-            <section class="post-copyright">
+           <section class="post-copyright">
                 
                     <p class="copyright-item">
                         <span>Author:</span>
@@ -244,23 +344,22 @@
                 
                 
                     <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/">https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                        <span>E-mail:</span>
+                        <span><strong>AustinWang_wqb@163.com<strong></strong></strong></span>
                     </p>
                 
                 
                      <p class="copyright-item">
                          <span>Slogan:</span>
-                         <span>Do you believe in <strong>DESTINY<strong>?</strong></strong></span>
+                         <span>哪来这么多天赋，只不过是义无反顾。</span>
                      </p>
                 
-
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/">https://printlnmylove.github.io/2019/07/16/Scrapy环境安装与快速入门案例/</a></span>
+                    </p>
+                
             </section>
         
         <section class="post-tags">
@@ -286,8 +385,6 @@
         </section>
         <section class="post-nav">
             
-            
-            <a class="next" rel="next" href="/2019/07/14/hello-world/">Hello World</a>
             
         </section>
 
