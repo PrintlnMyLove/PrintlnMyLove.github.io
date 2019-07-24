@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="description" content="王庆棒的个人博客，个人研究方向：自然语言处理，深度学习。联系方式：AustinWang_wqb@163.com">
+
+
+    <meta name="keywords" content="自然语言处理 深度学习">
+
+
+<title>Word2Vec词向量 | AustinWang&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/icon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+        
+    
+
+
+</head>
+<body>
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">AustinWang&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">NLP项目</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">AustinWang&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">文章</a>
+                
+                    <a class="menu-item" href="/categories">分类</a>
+                
+                    <a class="menu-item" href="/tags">标签</a>
+                
+                    <a class="menu-item" href="/about">NLP项目</a>
+                
+            </div>
+        </div>
+    </nav>
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+        <div class="main">
+            <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    document.ready(
+        function () {
+            tocbot.init({
+                tocSelector: '.tocbot-list',
+                contentSelector: '.post-content',
+                headingSelector: 'h1, h2, h3, h4, h5',
+                collapseDepth: 1,
+                orderedList: false,
+                scrollSmooth: true,
+            })
+        }
+    )
+
+    function expand_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 6,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "collapse_toc()");
+        b.innerHTML = "Collapse all"
+    }
+
+    function collapse_toc() {
+        var b = document.querySelector(".tocbot-toc-expand");
+        tocbot.init({
+            tocSelector: '.tocbot-list',
+            contentSelector: '.post-content',
+            headingSelector: 'h1, h2, h3, h4, h5',
+            collapseDepth: 1,
+            orderedList: false,
+            scrollSmooth: true,
+        });
+        b.setAttribute("onclick", "expand_toc()");
+        b.innerHTML = "Expand all"
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Word2Vec词向量</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Austin.Wang</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">July 18, 2019&nbsp;&nbsp;16:22:55</a>
+                        </span>
+                    
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/categories/词向量/">词向量</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>自然语言是一套用来表达含义的复杂系统。在这套系统中，词是表义的基本单元。那么，我们在机器学习或是深度学习中，用什么来表示一个词呢？没错，就是词向量。顾名思义，词向量是用来表示词的向量，通常也被认为是词的特征向量。近年来，词向量已逐渐成为自然语言处理的基础知识。</p>
+<h2 id="被抛弃的one-hot向量"><a href="#被抛弃的one-hot向量" class="headerlink" title="被抛弃的one-hot向量"></a>被抛弃的one-hot向量</h2><h3 id="one-hot含义"><a href="#one-hot含义" class="headerlink" title="one-hot含义"></a>one-hot含义</h3><p>我们有时候会在循环神经网络中使用one-hot向量来表示词，它通常也叫单热向量。假设词典中不同词的数量为N，每个词可以和从0到N-1的连续整数一一对应。假设一个词的相应整数表示为i，为了得到该词的one-hot向量表示，我们创建一个全为0的长为N的向量，并将其第i位设成1。</p>
+<h3 id="one-hot的局限性"><a href="#one-hot的局限性" class="headerlink" title="one-hot的局限性"></a>one-hot的局限性</h3><p>然而，使用one-hot词向量并不是一个好选择。一个重要的原因就是，one-hot词向量无法表达不同词之间的相似度。例如，任何一对词的one-hot向量的余弦相似度都为0。比如我们通过余弦相似度进行度量：</p>
+<p>$$<br>\frac{\boldsymbol{x}^{\top} \boldsymbol{y}}{|\boldsymbol{x}||\boldsymbol{y}|} \in[-1,1]<br>$$<br>对于向量$\boldsymbol{x}, \boldsymbol{y} \in \mathbb{R}^{d}$它们的余弦相似度是它们之间夹角的余弦值，而在one-hot中，上式总等于0。</p>
+<p>因此，自从Word2Vec出世后，它很快就退出了历史舞台。</p>
+<h2 id="Word2Vec简介"><a href="#Word2Vec简介" class="headerlink" title="Word2Vec简介"></a>Word2Vec简介</h2><p>2013年，Google团队发表了word2vec工具，Word2Vec工具主要包括两个模型：skip-gram（跳字模型）和连续词袋模型（continues bag of words，即CBOW）,以及两种高效训练的方法：负采样（negative sampling）和 层序softmax（hierarchical softmax）。其中最大的亮点就在于，word2vec词向量可以较好地表达不同词之间的相似和类比关系。<br>word2vec自提出后被广泛应用在自然语言处理任务中。它的模型和训练方法也启发了很多后续的词向量模型。<br>需要注意的是，word2vec并不是一个模型，而是一个工具，它包含两个模型，即：<br>skip-gram：通过中心词来推断上下文一定窗口内的单词。<br>CBOW：通过上下文来推断中心词。</p>
+<h2 id="Word2Vec模型（mode）"><a href="#Word2Vec模型（mode）" class="headerlink" title="Word2Vec模型（mode）"></a>Word2Vec模型（mode）</h2><h3 id="skip-gram（跳字模型）"><a href="#skip-gram（跳字模型）" class="headerlink" title="skip-gram（跳字模型）"></a>skip-gram（跳字模型）</h3><p>在skip-gram中，我们用一个词来预测它在文本序列周围的词。例如，给定文本序列”the” “man” “loves” “his” “wife”，skip-gram模型所关心的是，给定”loves”，生成它邻近词”the”,”man”,”his”和”wife”的概率。在这个例子中，”loves”就叫中心词，”the”,”man”.”his”和”son”叫作背景词，当然此时的skip_window（时间窗口）我们设置的是为2。</p>
+<p>我们来描述一下skip-gram模型。</p>
+<p>假设词典大小为|V|,我们将词典中的每个词与从0到|V|-1的整数一一对应:词典索引集V={0,1,,,|V|-1}。一个词在该词典中所对应的整数称为词的索引。给定一个长度为T的文本序列中,t时刻的词为$w^{(t)}$。当时间窗口大小为m时,跳字模型需要最大化给定任一中心词生成背景词的概率（注意：他们相互独立的）:</p>
+<p>$$<br>\prod_{t=1}^{T} \prod_{-m \leq j \leq m, j \neq 0} \mathbb{P}\left(w^{(t+j)} | w^{(t)}\right)<br>$$</p>
+<p>上式的最大似然估计与最小化以下损失函数等价，所以我们求上式的最大似然估计值，化简一步：</p>
+<p>$$<br>-\frac{1}{T} \sum_{t=1}^{T} \sum_{-m \leq j \leq m, j \neq 0} \log \mathbb{P}\left(w^{(t+j)} | w^{(t)}\right)<br>$$</p>
+<p>其中：<br><img src="P.jpg" alt="P.jpg"></p>
+<p>之后，求偏导，即梯度下降：<br><img src="P2.jpg" alt="P2.jpg"><br>最终可得：<br><img src="P3.jpg" alt="P3.jpg"><br>通过上面计算得到梯度后,我们可以使用随机梯度下降来不断迭代模型参数$v_{c}$。其他模型参数$u_{0}$的迭代方式同理可得。最终,对于词典中的任一索引为i的词,我们均得到该词作为中心词和背景词的两组词向量$v_{i}$和$u_{i}$。也就是说，v w u这几个参数，都是要根据数据输入“学习”出来的。在自然语言处理应用中，一般使用跳字模型的中心词向量作为词的表征向量。</p>
+<h3 id="CBOW（连续词袋模型）"><a href="#CBOW（连续词袋模型）" class="headerlink" title="CBOW（连续词袋模型）"></a>CBOW（连续词袋模型）</h3><p>连续词袋模型与跳字模型类似。与跳字模型最大的不同是,连续词袋模型中用一个中心词在文本序列周围的词来预测该中心词。例如,给定文本序列”the”,”man”,”loves”,”his”,和”wife”,连续词袋模型所关心的是,邻近词”the”,”man”,”his”,和”wife”一起生成中心词”loves”的概率。<br>假设词典大小为|V|,我们将词典中的每个词与从0到|V|-1的整数一一对应:词典索引集V={0,1,…,|V|-1}。一个词在该词典中所对应的整数称为词的索引。给定一个长度为T的文本序列中,t时刻的词为$w^{(t)}$。当时间窗口大小为m时,连续词袋模型需要最大化由背景词生成任一中心词的概率:<br>$$<br>\prod_{t=1}^{T} \mathbb{P}\left(w^{(t)} | w^{(t-m)}, \ldots, w^{(t-1)}, w^{(t+1)}, \ldots, w^{(t+m)}\right)<br>$$</p>
+<p>上式的最大似然估计与最小化以下损失函数等价，所以我们求上式的最大似然估计值，化简一步：</p>
+<p>$$<br>-\sum_{t=1}^{T} \log \mathbb{P}\left(w^{(t)} | w^{(t-m)}, \ldots, w^{(t-1)}, w^{(t+1)}, \ldots, w^{(t+m)}\right)<br>$$</p>
+<p>它的概率较为复杂一些：<br><img src="P4.jpg" alt="P4.jpg"></p>
+<p>中间化简之后，最终的公式为：</p>
+<p><img src="P5.jpg" alt="P5.jpg"></p>
+<p>u是变量。实际上，u，v的偏导都要求，步骤相同，这里就不在给出公式。同跳字模型不一样的一点在于，我们一般使用连续词袋模型的背景词向量作为词的表征向量。<br>容易看出，CBOW和skip-gram的计算开销非常大，所以下面我就介绍在实际训练中如何解决这个计算开销过大的问题。</p>
+<h2 id="近似训练（模型训练的优化）"><a href="#近似训练（模型训练的优化）" class="headerlink" title="近似训练（模型训练的优化）"></a>近似训练（模型训练的优化）</h2>
+        </div>
+
+        
+           <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Austin.Wang</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>E-mail:</span>
+                        <span><a href="mailto:AustinWang_wqb@163.com">AustinWang_wqb@163.com</a></span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>哪来这么多天赋，只不过是义无反顾。</span>
+                     </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://printlnmylove.github.io/2019/07/18/Word2Vec词向量/">https://printlnmylove.github.io/2019/07/18/Word2Vec词向量/</a></span>
+                    </p>
+                
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/Word2Vec/"># Word2Vec</a>
+                    
+                        <a href="/tags/词向量/"># 词向量</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+            
+            <a class="next" rel="next" href="/2019/07/17/NLP中文分词的常用算法分析/">NLP中文分词的常用算法分析</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+        </div>
+        <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Austin.Wang | Powered by <a href="/">AustinWang</a></span>
+    </div>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277821136'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s23.cnzz.com/z_stat.php%3Fid%3D1277821136%26show%3Dpic' type='text/javascript'%3E%3C/script%3E"));</script>
+</footer>
+
+    </div>
+</body>
+</html>
